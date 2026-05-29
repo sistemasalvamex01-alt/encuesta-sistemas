@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Encuesta de Satisfacción - Sistemas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Contenedor principal centrado */
+        .container {
+            max-width: 750px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Tarjeta del formulario */
+        .survey-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255,255,255,0.1);
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+            transition: transform 0.2s ease;
+        }
+
+        /* Cabecera con logo */
+        .header {
+            background: white;
+            padding: 1.8rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #eef2ff;
+        }
+
+        .logo-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 0.8rem;
+        }
+
+        .logo-placeholder {
+            background: linear-gradient(120deg, #2563eb, #1e40af);
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 15px -5px rgba(0,0,0,0.1);
+        }
+
+        .logo-placeholder svg {
+            width: 38px;
+            height: 38px;
+            filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));
+        }
+
+        .company-name {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e293b, #2d3a5e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .badge-sys {
+            background: #eef2ff;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #1e40af;
+            display: inline-block;
+        }
+
+        h2 {
+            color: #0f172a;
+            margin-top: 0.5rem;
+            font-weight: 600;
+            font-size: 1.6rem;
+        }
+
+        .sub {
+            color: #475569;
+            margin-top: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        /* Formulario */
+        .form-body {
+            padding: 2rem 2rem 2rem 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.6rem;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+        }
+
+        label i {
+            font-size: 1.2rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 18px;
+            font-size: 1rem;
+            transition: all 0.2s;
+            background: #fefefe;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+
+        /* Estilo para opciones con emojis */
+        .emoji-group {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .emoji-option {
+            flex: 1;
+            min-width: 90px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 10px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .emoji-option.selected {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+            box-shadow: 0 5px 12px rgba(59,130,246,0.3);
+        }
+
+        .emoji-option span {
+            font-size: 1.4rem;
+            margin-right: 6px;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+            transform: scale(1.1);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .radio-label {
+            font-weight: normal;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.1s;
+        }
+
+        .radio-label.selected-radio {
+            background: #22c55e;
+            color: white;
+        }
+
+        button {
+            background: linear-gradient(100deg, #2563eb, #4f46e5);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 40px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(37,99,235,0.3);
+            margin-top: 0.8rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 10px 20px rgba(37,99,235,0.4);
+        }
+
+        .message {
+            margin-top: 1rem;
+            padding: 12px;
+            border-radius: 60px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #86efac;
+            display: block;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #b91c1c;
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            background: #f9fafb;
+            border-top: 1px solid #eef2ff;
+        }
+
+        @media (max-width: 550px) {
+            .form-body {
+                padding: 1.5rem;
+            }
+            .emoji-group {
+                gap: 0.8rem;
+            }
+            .company-name {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="survey-card">
+        <div class="header">
+            <div class="logo-area">
+                <div class="logo-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36px" height="36px">
+                        <path d="M4 4h16v2H4V4zm2 4h12v2H6V8zm14-4v16H4V4h16zm-6 6h-4v2h4v-2zm-6 0H6v2h2v-2zm12 0h-2v2h2v-2zM8 14H6v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm-8 4H6v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/>
+                    </svg>
+                </div>
+                <div class="company-name">SISTEMAS ALVAMEX</div>
+            </div>
+            <div class="badge-sys">🔧 Sector Sistemas · Evaluación de desempeño</div>
+            <h2>📊 Encuesta de Satisfacción</h2>
+            <div class="sub">Tu opinión mejora nuestro servicio TI</div>
+        </div>
+
+        <div class="form-body">
+            <form id="surveyForm">
+                <!-- 1. Nombre -->
+                <div class="form-group">
+                    <label>👤 Nombre completo</label>
+                    <input type="text" id="nombre" placeholder="Ej: Carlos Mendoza" required>
+                </div>
+
+                <!-- 2. Correo -->
+                <div class="form-group">
+                    <label>📧 Correo electrónico</label>
+                    <input type="email" id="correo" placeholder="tu@empresa.com" required>
+                </div>
+
+                <!-- 3. Nivel de servicio (3 parámetros con emojis) -->
+                <div class="form-group">
+                    <label>⭐ Nivel de servicio (selecciona uno)</label>
+                    <div class="emoji-group" id="nivelServicioGroup">
+                        <div class="emoji-option" data-value="Excelente - Muy satisfecho">
+                            <span>😍🌟</span> Excelente
+                        </div>
+                        <div class="emoji-option" data-value="Bueno - Satisfactorio">
+                            <span>🙂👍</span> Bueno
+                        </div>
+                        <div class="emoji-option" data-value="Regular - Necesita mejorar">
+                            <span>😐👎</span> Regular
+                        </div>
+                    </div>
+                    <input type="hidden" id="nivelServicio" required>
+                </div>
+
+                <!-- 4. Tiempo de respuesta -->
+                <div class="form-group">
+                    <label>⏱️ Tiempo de respuesta</label>
+                    <select id="tiempoRespuesta" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="Menos de 30 minutos">🚀 Menos de 30 minutos</option>
+                        <option value="Entre 30 min y 2 horas">🕒 Entre 30 min y 2 horas</option>
+                        <option value="Entre 2 y 8 horas">⏳ Entre 2 y 8 horas</option>
+                        <option value="Más de 24 horas">🐢 Más de 24 horas</option>
+                    </select>
+                </div>
+
+                <!-- 5. Indicar si se resolvió el problema (emojis) -->
+                <div class="form-group">
+                    <label>✅ ¿Se resolvió el problema?</label>
+                    <div class="radio-group" id="problemaResueltoGroup">
+                        <label class="radio-label">
+                            <input type="radio" name="problemaResuelto" value="Sí, completamente resuelto ✅🎉"> Sí, completamente resuelto ✅🎉
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="problemaResuelto" value="Parcialmente resuelto 🤔⚠️"> Parcialmente resuelto 🤔⚠️
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="problemaResuelto" value="No se resolvió ❌😞"> No se resolvió ❌😞
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 6. Comentarios adicionales -->
+                <div class="form-group">
+                    <label>💬 Comentarios adicionales (opcional)</label>
+                    <textarea id="comentarios" rows="3" placeholder="Cuéntanos más sobre tu experiencia..."></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn">📩 Enviar encuesta</button>
+                <div id="formMessage" class="message"></div>
+            </form>
+        </div>
+        <footer>
+            🔒 Datos confidenciales · Solo para mejora del servicio de sistemas
+        </footer>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
